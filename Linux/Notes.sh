@@ -1,32 +1,31 @@
-
-Para ir a una ruta determianda:
+#	Para ir a una ruta determianda:
 cd /etc/init.d/
-------------------------------------------------------------------
-Para descargar por internett:
+#------------------------------------------------------------------
+#	Para descargar un archivo:
 wget http://www.bit.ly/2nTge4b
--------------------------------------------------------------------
-Muestra la ruta actual (donde está el foco en ese instante)
+#------------------------------------------------------------------
+#	Muestra la ruta actual (donde está el foco en ese momento)
 pwd 
-
---------------------------------------------------------------------
-Muestra contenido en la carpeta actual incluidas carpetas y archivos
+#--------------------------------------------------------------------
+#	Muestra contenido en la carpeta actual incluidas carpetas y archivos
 ls -a 
-
---------------------------------------------------------------------
-Renombra un archivo:
+#--------------------------------------------------------------------
+#	Renombra un archivo:
 mv 2nTge4b proxy.sh
---------------------------------------------------------------------
-Para ver las interfaces web:
+#--------------------------------------------------------------------
+#	Para ver informacion de las interfaces de red:
 ifconfig -a
---------------------------------------------------------------------
-
-Para instalar lyxn:
+#--------------------------------------------------------------------
+#	Para instalar lyxn:
 sudo apt-get install lynx
---------------------------------------------------------------------
+#--------------------------------------------------------------------
+#	Para configurar las interfaces de red:
+#	Se debe editar para ello el archivo localizado en: /etc/network/interfaces 
+#	Ejemplo:
+#	Si queremos una configuracion de una interfaz para que trabaje
+#	por DHCP y se asigne automatica la dir. IP dentro del documento escribimos:
 
-/etc/network/interfaces lo editamos para configurar la interfaz
-abajo ponemos:
-
+#	Si queremos una asignacion estática dentro del documento escribimos:
 iface eth1 inet static
 address 172.16.0.1
 netmask 255.255.0.0
