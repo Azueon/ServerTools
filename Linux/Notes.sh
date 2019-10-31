@@ -59,36 +59,46 @@ ls /dev/sd*
 sudo mount /deb/sda1 /media/cdrom
 cd /media/cdrom
 
-//Para copiar un archivo de un lugar a otro
+#	Para copiar un archivo de un lugar a otro
 sudo cp proxy.sh /etc/init.d
 
 sudo unmount /dev/sda1
 
-//Para dar permisos de adminsitrador sobre un archivo:
+#	Para dar permisos de adminsitrador sobre un archivo:
+#	(777 establecerá el maximo de los permisos de lectura, escritura y ejecución)
 sudo chmod 777 proxy.sh
 sudo chmod 755 proxy.sh
 
 sudo sh proxy.sh
 
 #--------------------------------------------------------------------
-Poner que un script se cargue al inicio en linux
-crear un enlace simbolico (primero objetivo y luego enlace) (Los mas bajos son los mas prioritarios)
+#	Crear un enlace simbolico, es decir poner un script para que se ejecute al inicio:
+#	Se establece primero el objetivo y luego el enlace. (Los numeros mas bajos son los prioritarios)
+#	La sintaxis es esta:
 sudo ln -s OBJETIVO S80NOMBRE
+#	Ejemplo:
 sudo ln -s /etc/init.d/proxy.sh /etc/init.d/S80proxy 
 
-------------------------------------------------------------------------------
-
+#---------------------------------------------------------------------
 #	Instalacion de un servidor DHCP [!]
+
+#	El primer paso es configurar primero las interfaces de red correctamente:
+sudo nano /etc/network/interfaces
+
+#	Una vez dentro tenemos que poner una configuracion válida, por ejemplo:
+#	Una de las interfaces será por donde se nos sumistrará internet
+#	La otra o las otras interfaces de red serán por las cuales se emitirá el protocolo DHCP
+
 # Para instalar servidor DHCP:
 sudo apt-get install isc-dhcp-server
 
 sudo nano /etc/default/isc-dhcp-server
-se nos abre y ponemos INTERFACES = "eth1" para que de ip en esa interffaz y no en la otra
+#	se nos abre y ponemos INTERFACES = "eth1" para que de ip en esa interffaz y no en la otra
 
-Para ver el estado del servidor dhcp:
+#	Para ver el estado del servidor DHCP:
 sudo service isc-dhcp-server status
 
-Es el fichero de configuracion del dhcp:
+#	Ejemplo 1 del fichero de configuracion del DHCP:
 sudo nano /etc/dhcp/dhcpd.conf
 En domain-name se puede configurar el nombre del dominio
 si incluye autorative tendra prioridad frente a otros que no tengan eso activado
@@ -120,7 +130,7 @@ subnet 172.16.0.0 netmask 255.255.0.0 {
 }
 
 
-Para arrancar el servicio:
+#	Para arrancar el servicio:
 sudo service isc-dhcp-server restart
 
 En el cliente tenemos que cambiar la configuracion de las 
@@ -134,25 +144,25 @@ iface eth0 inet dhcp
 #255.255.0.0
 #gateway 172.16.0.1
 
-Por si queremos podemos solicitar otra direcion dhcp.
+#	Por si queremos podemos solicitar otra direcion dhcp.
 sudo dhclient -r eth1
 
-Para ver desde el servidor que ip que ip ha servido en el dhcp:
-sudo nano /var/lib/????
+#	Para ver desde el servidor que ip que ip ha servido en el dhcp:
+#	(no verficado) sudo nano /var/lib/????
 
-Para testear si hay problemas:
+#	Para testear si hay problemas en el script de configuracion DHCP:
 dhcpd -t
 
 
 
 
-----------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------
 Para saber las mac de las interfaces de un host:
 ifconfig -a
 
 
 
-----------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------
 Poner el proxy:
 sudo nano /etc/init.d/proxy.sh
 
@@ -187,10 +197,10 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 sudo sh /etc/init.d/proxy.sh 
 
 
---------------------------------------------------------------------------
-Para bajar un archivo de internet y extraerlo:
+#---------------------------------------------------------------------
+#	Para bajar un archivo de internet y extraerlo:
 wget direcion 
 ls 
 tar -xzvf nombrearchivo
 sudo ./install.sh
---------------------------------------------------------------------------
+#---------------------------------------------------------------------
