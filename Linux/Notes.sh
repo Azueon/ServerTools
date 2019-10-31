@@ -24,15 +24,18 @@ sudo apt-get install lynx
 #	Ejemplo:
 #	Si queremos una configuracion de una interfaz para que trabaje
 #	por DHCP y se asigne automatica la dir. IP dentro del documento escribimos:
-
+#	Eth0 lo debemos sustituir por la interfaz que deseemos
+auto eth0
+iface eth0 inet dhcp
 #	Si queremos una asignacion estática dentro del documento escribimos:
 iface eth1 inet static
 address 172.16.0.1
 netmask 255.255.0.0
 
---------------------------------------------------------------------
+#--------------------------------------------------------------------
+#	Ir a una ruta determinada:
 ls /dev/sdb1
-
+#	Para montar particiones:
 sudo mount 
 
 sudo cp proxy.sh /etc/init.d/
@@ -46,7 +49,7 @@ wget http://www.bit.ly/2nTge4b
 sudo ifdown eth0
 sudo ifup eth0
 
---------------------------------------------------------------------
+#--------------------------------------------------------------------
 sudo sh ./proxy.sh
 ls -l
 
@@ -67,7 +70,7 @@ sudo chmod 755 proxy.sh
 
 sudo sh proxy.sh
 
---------------------------------------------------------------------
+#--------------------------------------------------------------------
 Poner que un script se cargue al inicio en linux
 crear un enlace simbolico (primero objetivo y luego enlace) (Los mas bajos son los mas prioritarios)
 sudo ln -s OBJETIVO S80NOMBRE
@@ -75,8 +78,8 @@ sudo ln -s /etc/init.d/proxy.sh /etc/init.d/S80proxy
 
 ------------------------------------------------------------------------------
 
-Protocolo DHCP [!]
-instalar servidor DHCP
+#	Instalacion de un servidor DHCP [!]
+# Para instalar servidor DHCP:
 sudo apt-get install isc-dhcp-server
 
 sudo nano /etc/default/isc-dhcp-server
@@ -140,6 +143,9 @@ sudo nano /var/lib/????
 Para testear si hay problemas:
 dhcpd -t
 
+
+
+
 ----------------------------------------------------------------------------------------------------------
 Para saber las mac de las interfaces de un host:
 ifconfig -a
@@ -187,3 +193,4 @@ wget direcion
 ls 
 tar -xzvf nombrearchivo
 sudo ./install.sh
+--------------------------------------------------------------------------
