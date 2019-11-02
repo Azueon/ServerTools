@@ -1,3 +1,8 @@
+#	[!] Para apagar el equipo:
+sudo shutdown -h now
+#	[!] Para reiniciar el equipo:
+sudo reboot
+
 #	Para ir a una ruta determianda:
 cd /etc/init.d/
 #------------------------------------------------------------------
