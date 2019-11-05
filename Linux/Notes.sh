@@ -1,7 +1,11 @@
 #	[!] Para apagar el equipo:
 sudo shutdown -h now
+
 #	[!] Para reiniciar el equipo:
 sudo reboot
+
+#	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
+history 20
 
 #	Para ir a una ruta determianda:
 cd /etc/init.d/
