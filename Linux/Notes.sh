@@ -7,7 +7,7 @@ sudo reboot
 #	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
 history 20
 
-#	Para ir a una ruta determianda:
+#	Para ir a una ruta determinada:
 cd /etc/init.d/
 #------------------------------------------------------------------
 #	Para descargar un archivo:
