@@ -210,6 +210,13 @@ sudo sh /etc/init.d/proxy.sh
 #	Para bajar un archivo de internet y extraerlo:
 wget direcion 
 ls 
+#	ALTERNATIVA: tar -xzf archive.tar.gz
 tar -xzvf nombrearchivo
 sudo ./install.sh
+#	Por ejemplo:
+wget https://github.com/Azueon/ServerTools/blob/master/Linux/fogproject-1.5.7.tar.gz
+ls
+tar -xzvf fogproject-1.5.7.tar.gz
+cd fogproject-1.5.7/bin
+sudo ./installfog.sh
 #---------------------------------------------------------------------
