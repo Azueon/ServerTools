@@ -7,6 +7,9 @@ sudo reboot
 #	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
 history 20
 
+#	Para eliminar un archivo (pero no una carpeta)
+rm nombrearchivo.extensionarchivo
+
 #	Para ir a una ruta determinada:
 cd /etc/init.d/
 #------------------------------------------------------------------
