@@ -226,3 +226,6 @@ tar -xzvf fogproject-1.5.7.tar.gz
 cd fogproject-1.5.7/bin
 sudo ./installfog.sh
 #---------------------------------------------------------------------
+
+#	Devuelve la ip de esta maquina:
+nslookup nombredominio
