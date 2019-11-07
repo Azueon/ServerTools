@@ -10,6 +10,9 @@ history 20
 #	Para eliminar un archivo (pero no una carpeta)
 rm nombrearchivo.extensionarchivo
 
+#	Para eliminar un archivo o carpeta y todas sus subcarpetas
+rm -r nombrearchivo
+
 #	Para ir a una ruta determinada:
 cd /etc/init.d/
 #------------------------------------------------------------------
