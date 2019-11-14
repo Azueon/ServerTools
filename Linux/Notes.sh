@@ -1,68 +1,74 @@
-#	[!] Para apagar el equipo:
-sudo shutdown -h now
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#	COMANDOS GENERALES:
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-#	[!] Para reiniciar el equipo:
-sudo reboot
+# - - - - - Para Apagar o reiniciar nuestro equipo:
+	#	[!] Para apagar el equipo:
+	sudo shutdown -h now
+	#	[!] Para reiniciar el equipo:
+	sudo reboot
 
-#	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
-history 20
+# - - - - - Comandos para navegar por el explorador de archivos. Para moverse por las carpetas de nuestro equipo:
+	#	[!] Para ir a una ruta determinada:
+	cd /etc/init.d/
+	#	[!] Muestra contenido en la carpeta actual 
+	ls
+	#	Muestra contenido en la carpeta actual (incluidas carpetas y archivos)
+	ls -a 
+	#	[!] Muestra la ruta actual (donde está el foco en ese momento)
+	pwd 
 
-#	Para eliminar un archivo (pero no una carpeta)
-rm nombrearchivo.extensionarchivo
+# - - - - - Para Copiar, Eliminar, Renombrar, Cortar archivos o carpetas:
+	#	[!] Para eliminar un archivo (pero no una carpeta) (Si necesita permiso añada "sudo" delante de "rm")
+	rm nombrearchivo.extensionarchivo
+	#	Para eliminar un archivo o carpeta y todas sus subcarpetas
+	rm -r nombrearchivo
+	#	Renombra un archivo:
+	mv nombreantiguo.extension nuevonombre.extension
 
-#	Para eliminar un archivo o carpeta y todas sus subcarpetas
-rm -r nombrearchivo
+# - - - - - Para ver los últimos comandos usados en la terminal:
+	#	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
+	history 20
 
-#	Para ir a una ruta determinada:
-cd /etc/init.d/
-#------------------------------------------------------------------
-#	Para descargar un archivo:
-wget http://www.bit.ly/2nTge4b
-#------------------------------------------------------------------
-#	Muestra la ruta actual (donde está el foco en ese momento)
-pwd 
-#--------------------------------------------------------------------
-#	Muestra contenido en la carpeta actual incluidas carpetas y archivos
-ls -a 
-#--------------------------------------------------------------------
-#	Renombra un archivo:
-mv 2nTge4b proxy.sh
-#--------------------------------------------------------------------
-#	Para ver informacion de las interfaces de red:
-ifconfig -a
-#--------------------------------------------------------------------
-#	Para instalar lyxn:
-sudo apt-get install lynx
-#--------------------------------------------------------------------
-#	Para configurar las interfaces de red:
-#	Se debe editar para ello el archivo localizado en: /etc/network/interfaces 
-#	Ejemplo:
-#	Si queremos una configuracion de una interfaz para que trabaje
-#	por DHCP y se asigne automatica la dir. IP dentro del documento escribimos:
-#	Eth0 lo debemos sustituir por la interfaz que deseemos
-auto eth0
-iface eth0 inet dhcp
-#	Si queremos una asignacion estática dentro del documento escribimos:
-iface eth1 inet static
-address 172.16.0.1
-netmask 255.255.0.0
+# - - - - - Configuracion de la Red. Para configurar la red de nuestro equipo:
+	#	[!] Para ver informacion de las interfaces de red:
+	ifconfig 
+	#	Para ver informacion completa de las interfaces de red:
+	ifconfig -a
+	#	Para desactivar una interfaz de red determinada:
+	sudo ifdown eth0
+	#	Para activar una interfaz de red determinada:
+	sudo ifup eth0
 
-#--------------------------------------------------------------------
-#	Ir a una ruta determinada:
-ls /dev/sdb1
-#	Para montar particiones:
-sudo mount 
+	#	[!] Para configurar las interfaces de red: 
+	#	Se debe editar para ello el archivo localizado en: /etc/network/interfaces 
+	sudo nano /etc/network/interfaces
+	#	Dentro de este archivo podemos configurar por ejemplo:
+	#	1. Que nuestra red obtenga dir IP de un servidor DHCP.
+	#	Si queremos una configuracion de una interfaz para que trabaje
+	#	por DHCP y se asigne automatica la dir. IP dentro del documento escribimos:
+	#	Eth0 lo debemos sustituir por la interfaz que deseemos
+	auto eth0
+	iface eth0 inet dhcp
+	#	2. Que nuestra red tenga una dir IP fija dada por la direccion que indiquemos.
+	#	Si queremos una asignacion estática dentro del documento escribimos (igualmente eth1 lo cambiamos por la interfaz que queremos configurar):
+	iface eth1 inet static
+	address 172.16.0.1
+	netmask 255.255.0.0
 
-sudo cp proxy.sh /etc/init.d/
-unmont
+# - - - - - Para descargar un archivo:
+	#	[!] Para descargar un archivo:
+	wget ruta
+	#	Ejemplo:
+	wget http://www.bit.ly/2nTge4b
 
-sudo mv proxy.sh /etc/init.d/
+# - - - - - Para instalar el navegador por terminar lynx:
+	#	[!] Para instalar lyxn:
+	sudo apt-get install lynx
 
-
-wget http://www.bit.ly/2nTge4b
-
-sudo ifdown eth0
-sudo ifup eth0
+# - - - - - Para montar particiones:
+#	[POR PROBAR] Para montar particiones:
+	sudo mount
 
 #--------------------------------------------------------------------
 sudo sh ./proxy.sh
@@ -175,13 +181,11 @@ dhcpd -t
 Para saber las mac de las interfaces de un host:
 ifconfig -a
 
-
-
 #---------------------------------------------------------------------
-Poner el proxy:
+# Poner el proxy:
 sudo nano /etc/init.d/proxy.sh
 
-Este es el proxy:
+# Este es el proxy:
 
 #!/bin/bash
 IPTABLES="/sbin/iptables"
@@ -226,6 +230,70 @@ tar -xzvf fogproject-1.5.7.tar.gz
 cd fogproject-1.5.7/bin
 sudo ./installfog.sh
 #---------------------------------------------------------------------
-
+#	COMANDOS PARA DNS:
 #	Devuelve la ip de esta maquina:
 nslookup nombredominio
+
+#	Antes de nada configura las interfaces de red y el servidor dhcp para que se
+#	emita correctamente y no haya problemas con otros servidores de nombres
+
+#	Configurar BIND9 para disponer de un servidor DNS en una intranet:
+#	Instalamos BIND9 
+sudo aptitude install bind9
+cd /etc/bind/
+# 	Editamos named.conf.local y añadimos la zona “marblestation.homeip.net”
+zone "marblestation.homeip.net" {
+ type master;
+ file "/etc/bind/db.marblestation";
+};
+#	Creamos el fichero de configuración “db.marblestation” a partir de “db.local”:
+cp db.local db.marblestation
+#	Editamos “db.marblestation”, reemplazamos la palabra “localhost” por
+#	“marblestation.homeip.net”, cambiamos la IP “127.0.0.1″ por la que queramos
+#	asignar al dominio y añadimos al final del fichero todos los A, MX y CNAME que
+#	queramos, quedando:
+;
+; BIND data file for local loopback interface
+;
+$TTL 604800
+@ IN SOA marblestation.homeip.net. root.marblestation.homeip.net. (
+ 1 ; Serial
+ 604800 ; Refresh
+ 86400 ; Retry
+ 2419200 ; Expire
+ 604800 ) ; Negative Cache TTL
+;
+@ IN NS marblestation.homeip.net.
+@ IN A 192.168.48.32
+@ IN MX 0 marblestation.homeip.net.
+www IN A 192.168.48.32
+saturno IN CNAME marblestation.homeip.net.
+
+#	Cada vez que se cambia la configuración de BIND9, debemos reiniciar el demonio:
+/etc/init.d/bind9 restart
+
+#	Para que nuestra máquina utilice el servidor de DNS que hemos configurado,
+#	debemos editar “/etc/resolv.conf” y dejamos únicamente la línea:
+nameserver 127.0.0.1
+
+#	Se debería hacer lo mismo con el resto de máquinas de la intranet que vayan a
+#	utilizar el servidor, con la única diferencia que habrá que substituir la IP
+#	127.0.0.1 por la IP que tenga el servidor en la red.
+#	Para comprobar el correcto funcionamiento, utilizamos el comando “host” el
+#	cual sirve para resolver dominios:
+$ host marblestation.homeip.net
+marblestation.homeip.net has address 192.168.48.32
+marblestation.homeip.net mail is handled by 0 marblestation.homeip.net.
+$ host saturno.marblestation.homeip.net
+saturno.marblestation.homeip.net is an alias for marblestation.homeip.net.
+marblestation.homeip.net has address 192.168.48.32
+saturno.marblestation.homeip.net is an alias for marblestation.homeip.net.
+saturno.marblestation.homeip.net is an alias for marblestation.homeip.net.
+marblestation.homeip.net mail is handled by 0 marblestation.homeip.net.
+
+# Para iniciar el servidor bin9:
+sudo service bin9 restart
+
+
+
+#---------------------------------------------------------------------
