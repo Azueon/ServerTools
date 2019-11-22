@@ -33,6 +33,21 @@
 	#	Para copiar un archivo de un lugar a otro
 	sudo cp proxy.sh /etc/init.d
 
+# - - - - - Guardar salida en un fichero de texto:
+	#	Guardar salida en un fichero de texto:
+	#	1. Usando: >
+	#   No se mostrará en la terminal. Si el archivo existe, se sobrescribirá. 
+	#	Sintaxis:
+	COMANDO > NOMBREARCHIVO.EXTENSION
+	# Ejemplo:
+	history 1000 > listaComandos.txt 
+	#	2. Usando: >>
+	#   No se mostrará en la terminal. Si el archivo existe, se escribirá al final. 
+	#	Sintaxis:
+	COMANDO > NOMBREARCHIVO.EXTENSION
+	# Ejemplo:
+	history 1000 >> listaComandos.txt 
+
 
 # - - - - - Para ver los últimos comandos usados en la terminal:
 	#	[!] Para ver los últimos comandos usados en la terminal (el numero indica la cantidad de comandos que queremos mostrar):
@@ -193,10 +208,10 @@
 #	1. Antes de nada configura las interfaces de red y el servidor dhcp para que se
 #	emita correctamente y no haya problemas con otros servidores de nombres
 	sudo nano /etc/network/interfaces
-#	Configurar BIND9 para disponer de un servidor DNS en una intranet:
-#	Instalamos BIND9 
+#	2. Instalamos BIND9 y configurar BIND9 para disponer de un servidor DNS en una intranet:
 	sudo aptitude install bind9
 	cd /etc/bind/
+	sudo nano named.conf.local
 # 	Editamos named.conf.local y añadimos la zona “marblestation.homeip.net”
 	zone "marblestation.homeip.net" {
 	 type master;
