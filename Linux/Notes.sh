@@ -212,33 +212,41 @@
 	sudo aptitude install bind9
 	cd /etc/bind/
 	sudo nano named.conf.local
-# 	Editamos named.conf.local y añadimos la zona “marblestation.homeip.net”
-	zone "marblestation.homeip.net" {
-	 type master;
-	 file "/etc/bind/db.marblestation";
+# 	Editamos named.conf.local:
+	zone "nombredeldominio.es" {
+		type master;
+		file "/etc/bind/db.nombredeldominio";
 	};
-#	Creamos el fichero de configuración “db.marblestation” a partir de “db.local”:
-	cp db.local db.marblestation
-#	Editamos “db.marblestation”, reemplazamos la palabra “localhost” por
-#	“marblestation.homeip.net”, cambiamos la IP “127.0.0.1″ por la que queramos
-#	asignar al dominio y añadimos al final del fichero todos los A, MX y CNAME que
-#	queramos, quedando:
-	;
+	zone "17.172.in_addr.arpa" {
+		type master;
+		file "/etc/bind/db.172";
+	};
+#	Creamos el fichero de configuración "db.nombredeldominio" a partir de “db.local”:
+	cp db.local db.nombredeldominio
+#	Editamos “db.nombredeldominio:
+	sudo nano db.nombredeldominio
+#   reemplazamos la palabra “localhost” pornombredeldominio.homeip.net”, cambiamos la
+#   IP “127.0.0.1″ por la que queramos asignar al dominio y añadimos al final
+#	del fichero todos los A, MX y CNAME que queramos, quedando:
 	; BIND data file for local loopback interface
-	;
 	$TTL 604800
-	@ IN SOA marblestation.homeip.net. root.marblestation.homeip.net. (
-	 1 ; Serial
+	@ IN SOA nombredeldominio.es. root.nombredeldominio.es. (
+	 2 ; Serial
 	 604800 ; Refresh
 	 86400 ; Retry
 	 2419200 ; Expire
 	 604800 ) ; Negative Cache TTL
 	;
-	@ IN NS marblestation.homeip.net.
-	@ IN A 192.168.48.32
-	@ IN MX 0 marblestation.homeip.net.
-	www IN A 192.168.48.32
-	saturno IN CNAME marblestation.homeip.net.
+	@ IN NS nombredeldominio.es.
+	@ IN A 172.17.0.1
+	www IN A 172.17.0.2
+	;mail IN MX 0 192.168.15.4
+	ftp IN A 172.17.0.3
+	files IN A 172.17.0.4
+	;mail IN CNAME mail.nombredeldominio.es.
+	;ftp IN CNAME ftp.nombredeldominio.es.
+	;files IN CNAME files.nombredeldominio.es.
+	;www IN CNAME www.nombredeldominio.es.
 #	Cada vez que se cambia la configuración de BIND9, debemos reiniciar el demonio:
 	/etc/init.d/bind9 restart
 #	Para que nuestra máquina utilice el servidor de DNS que hemos configurado,
