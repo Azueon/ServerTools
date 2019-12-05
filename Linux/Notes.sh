@@ -222,14 +222,13 @@
 #	[!] Devuelve la ip de esta maquina:
 	nslookup nombredominio
 #	Instalar un servidor DNS Maestro:
-#	1. Antes de nada configura las interfaces de red y el servidor dhcp para que se
+#	1. [!] Antes de nada configura las interfaces de red y el servidor dhcp para que se
 #	emita correctamente y no haya problemas con otros servidores de nombres
 	sudo nano /etc/network/interfaces
-#	2. Instalamos BIND9 y configurar BIND9 para disponer de un servidor DNS en una intranet:
+#	2. [!] Instalamos BIND9 y configurar BIND9 para disponer de un servidor DNS en una intranet:
 	sudo aptitude install bind9
-	cd /etc/bind/
-	sudo nano named.conf.local
-# 	Editamos named.conf.local:
+	sudo /etc/bind/nano named.conf.local
+# 	3. Editamos named.conf.local:
 
 				zone "nombredeldominio.es" {
 					type master;
@@ -240,11 +239,11 @@
 					file "/etc/bind/db.172";
 				};
 
-#	Creamos el fichero de configuración "db.nombredeldominio" a partir de “db.local”:
+#	4. [!] Creamos el fichero de configuración "db.nombredeldominio" a partir de “db.local”:
 	cp db.local db.nombredeldominio
-#	Editamos “db.nombredeldominio:
+#	5. [!] Editamos “db.nombredeldominio:
 	sudo nano db.nombredeldominio
-#   reemplazamos la palabra “localhost” pornombredeldominio.homeip.net”, cambiamos la
+#   6. Reemplazamos la palabra “localhost” pornombredeldominio.homeip.net”, cambiamos la
 #   IP “127.0.0.1″ por la que queramos asignar al dominio y añadimos al final
 #	del fichero todos los A, MX y CNAME que queramos, quedando:
 
@@ -269,12 +268,14 @@
 				;files IN CNAME files.nombredeldominio.es.
 				;www IN CNAME www.nombredeldominio.es.
 
-#	3. Cada vez que se cambia la configuración de BIND9, debemos reiniciar el demonio:
-	/etc/init.d/bind9 restart
-#	Para que nuestra máquina utilice el servidor de DNS que hemos configurado,
-#	debemos editar “/etc/resolv.conf” y dejamos únicamente la línea:
-	nameserver 127.0.0.1
-#	Se debería hacer lo mismo con el resto de máquinas de la intranet que vayan a
+#	7. [!] Cada vez que se cambia la configuración de BIND9, debemos reiniciar el demonio:
+	sudo /etc/init.d/bind9 restart
+#	8. Para que nuestra máquina utilice el servidor de DNS que hemos configurado,
+#	debemos editar “/etc/resolv.conf”:
+	sudo nano /etc/resolv.conf
+#	Y dejamos únicamente la línea:
+	sudo nameserver 127.0.0.1
+#	9. Se debería hacer lo mismo con el resto de máquinas de la intranet que vayan a
 #	utilizar el servidor, con la única diferencia que habrá que substituir la IP
 #	127.0.0.1 por la IP que tenga el servidor en la red.
 #	Para comprobar el correcto funcionamiento, utilizamos el comando “host” el
@@ -296,5 +297,5 @@
 	sudo service bin9 stop
 # Para ver la carpeta donde se guarda la cache del servidor bin9:
 	sudo ls /var/cache/bind
-#	Para verificar si esta correcta la configuracion:
-named-checkzone nombredeldominio.es db.nombredeldominio
+# Para verificar si está correcta la configuración:
+	sudo named-checkzone nombredeldominio.es db.nombredeldominio
