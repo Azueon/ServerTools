@@ -6,8 +6,26 @@
 # - - - - - Para Apagar o reiniciar nuestro equipo:
 	#	[!] Para apagar el equipo:
 	sudo shutdown -h now
+	#	[mejor usar el comando de arriba] Para apagar el equipo por completo:
+	sudo halt
 	#	[!] Para reiniciar el equipo:
 	sudo reboot
+
+# - - - - - Para cambiar de usuario:
+	#	[!] Para cambiar al usuario administrador, cambia al modo de superusuario o "root":
+	sudo su
+
+# - - - - - Para cambiar la contraseña del usuario:
+	#	Para cambiar la contraseña del usuario
+	sudo passwd
+
+# - - - - - Para descomprimir archivos:
+	#	Para descomprimir un archivo zip
+	unzip archivo.zip
+	#	Para descomprimir un archivo rar
+	unrar e -r archivo.rar
+	#	Para comprimir un archivo rar
+	rar a -r0 archivo.rar archivodescomprimido
 
 
 # - - - - - Comandos para navegar por el explorador de archivos. Para moverse por las carpetas de nuestro equipo:
@@ -45,6 +63,8 @@
 	sudo rm *
 	#	Para eliminar todos los archivos de la carpeta actual incluyendo archivos y subcarpetas:
 	sudo rm *
+	#	Para crear un archivo vacio, si este no existe:
+	sudo touch archivo.txt
 
 # - - - - - Guardar salida en un fichero de texto:
 	#	Guardar salida en un fichero de texto:
@@ -234,9 +254,16 @@
 					type master;
 					file "/etc/bind/db.nombredeldominio";
 				};
+				#	Para DNS maestro
 				zone "17.172.in_addr.arpa" {
 					type master;
 					file "/etc/bind/db.172";
+				};
+
+				#	Para DNS exclavos
+				zone "17.172.in_addr.arpa" {
+					type slave;
+					file "/var/cache/bind/db.172";
 				};
 
 #	4. [!] Creamos el fichero de configuración "db.nombredeldominio" a partir de “db.local”:
@@ -258,15 +285,11 @@
 				;
 				@ IN NS nombredeldominio.es.
 				@ IN A 172.17.0.1
-				dns IN A 172.17.0.1
 				www IN A 172.17.0.2
-				;mail IN MX 0 192.168.15.4
+				mail IN MX 0 192.168.15.4
 				ftp IN A 172.17.0.3
 				files IN A 172.17.0.4
-				;mail IN CNAME mail.nombredeldominio.es.
-				;ftp IN CNAME ftp.nombredeldominio.es.
-				;files IN CNAME files.nombredeldominio.es.
-				;www IN CNAME www.nombredeldominio.es.
+
 
 #	7. [!] Cada vez que se cambia la configuración de BIND9, debemos reiniciar el demonio:
 	sudo /etc/init.d/bind9 restart
@@ -275,7 +298,7 @@
 	sudo nano /etc/resolv.conf
 #	Y dejamos únicamente la línea:
 	sudo nameserver 127.0.0.1
-#	9. Se debería hacer lo mismo con el resto de máquinas de la intranet que vayan a
+#	[Este paso no es necesario] 9. Se debería hacer lo mismo con el resto de máquinas de la intranet que vayan a
 #	utilizar el servidor, con la única diferencia que habrá que substituir la IP
 #	127.0.0.1 por la IP que tenga el servidor en la red.
 #	Para comprobar el correcto funcionamiento, utilizamos el comando “host” el
