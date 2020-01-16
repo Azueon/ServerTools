@@ -2,8 +2,7 @@
 #	COMANDOS GENERALES:
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
-# - - - - - Para Apagar o reiniciar nuestro equipo:
+# - - - - - Para Apagar o reiniciar nuestro equipo y comandos generales:
 	#	[!] Para apagar el equipo:
 	sudo shutdown -h now
 	#	[mejor usar el comando de arriba] Para apagar el equipo por completo:
@@ -14,6 +13,12 @@
 # - - - - - Para cambiar de usuario:
 	#	[!] Para cambiar al usuario administrador, cambia al modo de superusuario o "root":
 	sudo su
+
+# - - - - - Para cambiar el nombre del host:
+	#	[!] Para cambiar el nombre del host:
+	sudo hostname YOURNEWNAME
+	#	[!] Editamos el nombre de host del cual deseamos cambiar:
+	sudo nano /etc/hosts
 
 # - - - - - Para cambiar la contraseña del usuario:
 	#	Para cambiar la contraseña del usuario
@@ -176,6 +181,30 @@
 	sudo sh /etc/init.d/proxy.sh 
 #	4. Finalmente deberemos incorporarlo en un enlace simbólico
 	sudo ln -s /etc/init.d/proxy.sh /etc/init.d/S80proxy 
+#   5. Si queremos podemos abrir puertos cambiando la configuracion del script del proxy
+#	por ejemplo si queremos poner un servidor de paginas web en una IP Estática
+#	para ello:
+#	Introducimos el siguiente comando:
+	sudo nano /etc/init.d/proxy.sh
+#	Modificamos y lo dejamos como el siguiente (descomentamos la penúltima línea):
+	#~ !/bin/bash
+	IPTABLES="/sbin/iptables"
+	#~ Limpiamos las reglas anteriores y ponemos los contadores a cero:
+	$IPTABLES -F
+	$IPTABLES -t nat -F
+	$IPTABLES -Z
+	#~ Establecemos la política por defecto de las cadenas de la tabla
+	#~ filter
+	$IPTABLES -P INPUT ACCEPT
+	$IPTABLES -P OUTPUT ACCEPT
+	$IPTABLES -P FORWARD ACCEPT
+	$IPTABLES -t nat -P PREROUTING ACCEPT
+	$IPTABLES -t nat -P POSTROUTING ACCEPT
+	/sbin/iptables -P FORWARD ACCEPT
+	#~iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 8080
+	/sbin/iptables --table nat -A POSTROUTING -s 172.16.0.0/16 -o eth0 -j MASQUERADE
+	/sbin/iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 80 -j DNAT --to-destination 172.16.0.75:80
+	echo 1 > /proc/sys/net/ipv4/ip_forward
 
 # - - - - - Instalacion de un servidor DHCP 
 #   Instalacion de un servidor DHCP 
@@ -322,3 +351,14 @@
 	sudo ls /var/cache/bind
 # Para verificar si está correcta la configuración:
 	sudo named-checkzone nombredeldominio.es db.nombredeldominio
+
+# - - - - - COMANDOS PARA SERVIDOR APACHE:
+#	Comandos servidor Apache, para instalarlo:
+	sudo apt update
+	sudo apt install apache2
+#	Para iniciar el servidor Apache:
+	sudo systemctl start apache2
+#	Para parar Apache:
+	sudo systemctl stop apache2
+#	Para reiniciar Apache:
+	sudo systemctl restart apache2
