@@ -225,6 +225,9 @@
 	sudo service isc-dhcp-server status
 #	Ejemplo 1 del fichero de configuracion del DHCP:
 	sudo nano /etc/dhcp/dhcpd.conf
+# Otro archivo de configuracion:
+sudo nano /etc/default/isc-dhcp-server
+
 #	En domain-name se puede configurar el nombre del dominio
 #	si incluye autorative tendra prioridad frente a otros que no tengan eso activado
 #	Dentro del archivo de configuracion podemos usar las variables globales
