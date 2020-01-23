@@ -14,6 +14,10 @@
 	#	[!] Para cambiar al usuario administrador, cambia al modo de superusuario o "root":
 	sudo su
 
+# - - - - - Para cambiar configurar permisos de usuarios, y otros permisos generales:
+	#	Para cambiar configurar permisos de usuarios, y otros permisos generales:
+	sudo nano /etc/sudoers
+
 # - - - - - Para cambiar el nombre del host:
 	#	[!] Para cambiar el nombre del host:
 	sudo hostname YOURNEWNAME
@@ -141,7 +145,8 @@
 #	La sintaxis es esta:
 	sudo ln -s RUTA/ARCHIVO.EXTENSION S80NOMBRE
 #	Ejemplo:
-	sudo ln -s /etc/init.d/proxy.sh /etc/init.d/S80proxy 
+	sudo ln -s /etc/init.d/proxy.sh /etc/rc2.d/S80proxy 
+	
 
 
 # - - - - - Para dar permisos de administrador sobre un archivo
@@ -216,7 +221,6 @@
 	#FALTA PONER AQUI ARCHIVO CONFIGURACION
 # 	3. Instalamos el servidor DHCP:
 	sudo apt-get install isc-dhcp-server
-	sudo nano /etc/default/isc-dhcp-server
 #	Para ver el estado del servidor DHCP:
 	sudo service isc-dhcp-server status
 #	Ejemplo 1 del fichero de configuracion del DHCP:
